@@ -68,6 +68,20 @@ fetchData((result) => {
 console.log("Continuing with other tasks...");
 ```
 
+```javascript
+fetchRandomJoke((joke) => {
+    console.log(joke);
+
+    translateJoke(joke, (translatedJoke) => {
+        console.log(translatedJoke);
+
+        postJoke(translatedJoke, () => {
+            console.log("Joke posted successfully!");
+        });
+    });
+});
+```
+
 ## **The Problem: "Callback Hell"**
 When you have many nested asynchronous operations, callbacks can lead to deeply indented, hard-to-read, and maintain code, often called "Callback Hell" or "Pyramid of Doom."
 
