@@ -90,6 +90,55 @@ docker-compose up --build
 - Both your Node.js app and Postgres database will start and be networked together.
 
 <!-- end_slide -->
+# Persisting Database Data with Volumes
+
+- By default, database data is lost when the container stops.
+- Use Docker volumes to persist data between container restarts.
+
+## Updated `docker-compose.yml` with Volume
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+<!-- end_slide -->
+# Volume Benefits
+
+- **Data Persistence**: Your database survives container restarts and rebuilds.
+- **Data Sharing**: Multiple containers can access the same data.
+- **Backup/Restore**: Easy to backup and restore data volumes.
+
+```sh
+# View volumes
+docker volume ls
+
+# Inspect volume details
+docker volume inspect fullstack-slides_postgres_data
+```
+
+<!-- end_slide -->
 # Connecting Node.js to Postgres
 
 - Use a library like `pg` in your Node.js app:
