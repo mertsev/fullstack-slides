@@ -104,7 +104,7 @@ choco install nodejs-lts docker-desktop vscode postman dbeaver
 **Goal:** Practice working with Docker Compose, Postgres, and connecting your Node.js app to a database.
 
 ## Tasks
-1. Use Docker Compose to run both Node.js and Postgres.
+1. Use Docker Compose to run both Node.js and Postgres with data persistence.
    **Example `docker-compose.yml`:**
    ```yaml
    version: '3.8'
@@ -126,6 +126,11 @@ choco install nodejs-lts docker-desktop vscode postman dbeaver
          POSTGRES_DB: postgres
        ports:
          - "5432:5432"
+       volumes:
+         - postgres_data:/var/lib/postgresql/data
+
+   volumes:
+     postgres_data:
    ```
    **Start everything:**
    ```sh
@@ -158,6 +163,8 @@ choco install nodejs-lts docker-desktop vscode postman dbeaver
    ```
 4. Install DBeaver Community Edition and connect to your database.
 5. Explore the interface and view your created table and data.
+6. Test data persistence: Stop the containers with `docker-compose down`, restart with `docker-compose up`, and verify your data is still there.
+   **Bonus:** Use `docker volume ls` to see your created volume and `docker volume inspect <volume_name>` to explore its details.
 
 ---
 
